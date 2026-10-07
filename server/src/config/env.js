@@ -8,7 +8,7 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(16, "JWT_SECRET must be at least 16 characters"),
   OPENAI_API_KEY: z.string().min(1, "OPENAI_API_KEY is required"),
   OPENAI_MODEL: z.string().min(1, "OPENAI_MODEL is required"),
-  CLIENT_URL: z.string().min(1, "CLIENT_URL is required"),
+  CLIENT_URL: z.string().min(1).default("http://localhost:5173"),
 });
 
 const parsed = envSchema.safeParse(process.env);
