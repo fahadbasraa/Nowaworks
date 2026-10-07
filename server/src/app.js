@@ -12,6 +12,7 @@ import projectRoutes from "./routes/project.routes.js";
 import taskRoutes from "./routes/task.routes.js";
 import teamRoutes from "./routes/team.routes.js";
 import transcriptRoutes from "./routes/transcript.routes.js";
+import demoRoutes from "./routes/demo.routes.js";
 
 export const app = express();
 
@@ -37,6 +38,7 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api/transcript", transcriptRoutes);
+app.use("/api/demo", demoRoutes);
 
 app.use("/api", (req, res, next) => {
   next(new AppError(404, "NOT_FOUND", "Not found"));

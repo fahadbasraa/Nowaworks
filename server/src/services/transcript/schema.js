@@ -26,7 +26,16 @@ const unresolvedSchema = z.object({
   reason: z.string(),
 });
 
+const decisionSchema = z.object({
+  type: z.enum(["revised", "excluded", "ignored_person"]),
+  subject: z.string(),
+  from: z.string().nullable().optional().default(null),
+  to: z.string().nullable().optional().default(null),
+  reason: z.string(),
+});
+
 export const planSchema = z.object({
   projects: z.array(projectSchema),
   unresolved: z.array(unresolvedSchema),
+  decisions: z.array(decisionSchema).optional().default([]),
 });

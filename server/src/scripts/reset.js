@@ -1,15 +1,13 @@
 import mongoose from "mongoose";
 import { connectDB } from "../config/db.js";
-import { Project } from "../models/Project.js";
-import { Task } from "../models/Task.js";
+import { resetDemoData } from "../services/demo.service.js";
 
 async function reset() {
   await connectDB();
 
-  const { deletedCount: taskCount } = await Task.deleteMany({});
-  const { deletedCount: projectCount } = await Project.deleteMany({});
+  const { deletedProjects, deletedTasks } = await resetDemoData();
 
-  console.log(`Deleted ${projectCount} projects and ${taskCount} tasks. Users were kept.`);
+  console.log(`Deleted ${deletedProjects} projects and ${deletedTasks} tasks. Users were kept.`);
   await mongoose.disconnect();
 }
 

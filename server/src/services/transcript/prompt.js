@@ -10,6 +10,11 @@ Rules:
 7. Dates are YYYY-MM-DD. Use the meeting year if no year is given.
 8. If a required value cannot be determined, do NOT guess. Add it to unresolved.
 9. Descriptions: 1-2 sentences, include scope boundaries mentioned (e.g. "demo cart, no real payments").
+10. Record every notable judgment call you made in \`decisions\`:
+    - type "revised": a deadline, hours estimate, or owner that was stated and then changed later in the meeting. Set \`subject\` to the task or project name, \`from\` to the earlier value, \`to\` to the final value, and \`reason\` to a short note (e.g. "owner corrected in final recap").
+    - type "excluded": a feature, task, or project that was discussed but rejected, deferred, or explicitly left out. Set \`subject\` to the feature/task name and \`reason\` to why it was excluded.
+    - type "ignored_person": a person mentioned who is not in the directory (a client, end user, or outsider) and was therefore not assigned any work. Set \`subject\` to their name and \`reason\` to why they were not assigned work.
+    Leave \`from\`/\`to\` unset for "excluded" and "ignored_person" entries.
 
 You must call the submit_plan tool with your result. Do not respond with plain text.`;
 
@@ -60,8 +65,23 @@ export const SUBMIT_PLAN_TOOL = {
           required: ["project", "field", "reason"],
         },
       },
+      decisions: {
+        type: "array",
+        description: "Judgment calls made while extracting the plan: revised values, excluded features, and people outside the directory who were not assigned work.",
+        items: {
+          type: "object",
+          properties: {
+            type: { type: "string", enum: ["revised", "excluded", "ignored_person"] },
+            subject: { type: "string", description: "The task, project, feature, or person this decision is about." },
+            from: { type: "string", description: "The earlier value, for \"revised\" decisions only." },
+            to: { type: "string", description: "The final value, for \"revised\" decisions only." },
+            reason: { type: "string" },
+          },
+          required: ["type", "subject", "reason"],
+        },
+      },
     },
-    required: ["projects", "unresolved"],
+    required: ["projects", "unresolved", "decisions"],
   },
 };
 
